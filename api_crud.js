@@ -26,7 +26,8 @@ app.get('/women', (req, res) => {
 app.get('/categories', (req, res) => {
     mongoClient.connect(conStr)
         .then(clientObj => {
-            var database = clientObj.db("videolibrary");
+            // var database = clientObj.db("videolibrary");
+            var database = clientObj.db("admin");
             database.collection("categories").find({}).toArray()
                 .then(documents => {
                     res.send(documents);
@@ -48,7 +49,8 @@ app.post("/add-category", (req, res) => {
     }
 
     mongoClient.connect(conStr).then(clientObj => {
-        var database = clientObj.db("videolibrary")
+        // var database = clientObj.db("videolibrary")
+        var database = clientObj.db("admin")
 
         database.collection("categories").insertOne(category)
             .then(() => {
@@ -67,7 +69,8 @@ app.put('/edit-category/:id', (req, res) => {
     var id = parseInt(req.params.id);
     mongoClient.connect(conStr)
         .then(clientObj => {
-            var database = clientObj.db("videolibrary");
+            // var database = clientObj.db("videolibrary");
+            var database = clientObj.db("admin");
             database.collection("categories").updateOne({ CategoryId: id }, { $set: { CategoryId: parseInt(req.body.CategoryId), CategoryName: req.body.CategoryName } })
             console.log("category updated successfully...");
             res.end();
@@ -79,7 +82,8 @@ app.delete('/delete-category/:id', (req, res) => {
 
     mongoClient.connect(conStr).then(clientObj => {
 
-        var database = clientObj.db("videolibrary");
+        // var database = clientObj.db("videolibrary");
+        var database = clientObj.db("admin");
 
         database.collection('categories').deleteOne({CategoryId: parseInt(req.params.id) }).then (() => {
                 console.log("category deleted successfully...");
